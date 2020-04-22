@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "886006302059",
+    "firebase_url": "https://coffee-choice-app-22a4d.firebaseio.com",
+    "project_id": "coffee-choice-app-22a4d",
+    "storage_bucket": "coffee-choice-app-22a4d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:886006302059:android:3b1f32907acabdced4782e",
+        "android_client_info": {
+          "package_name": "com.example.coffeechoiceapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "886006302059-audmadkjmv1tlqo06sn97h6tlorlp4ei.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDSzKs19g6vXHwuYj5QkC6Z1J0AXmSrmg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "886006302059-audmadkjmv1tlqo06sn97h6tlorlp4ei.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
