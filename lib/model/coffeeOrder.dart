@@ -21,7 +21,7 @@ class CoffeeOrderList extends ChangeNotifier {
 
   int index;
 
-  final List<CoffeeOrderModel> _getCoffeeOrderList = [];
+  List<CoffeeOrderModel> _getCoffeeOrderList = [];
 
   UnmodifiableListView<CoffeeOrderModel> get getCoffeeOrderList => UnmodifiableListView(_getCoffeeOrderList);
 

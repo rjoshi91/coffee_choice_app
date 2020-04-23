@@ -39,6 +39,9 @@ class _EditCoffeePreferenceState extends State<EditCoffeePreference> {
 
   @override
   Widget build(BuildContext context) {
+
+    CoffeeOrderList coffeeOrderListPro = Provider.of<CoffeeOrderList>(context);
+
     return StreamProvider<QuerySnapshot>.value(
       value: DatabaseService().coffees,
       child: new Scaffold(
@@ -528,7 +531,7 @@ class _EditCoffeePreferenceState extends State<EditCoffeePreference> {
                     ),
                     color: Colors.brown,
                     onPressed: () {
-                      coffeeOrderList.add(
+                      coffeeOrderListPro.add(
                           CoffeeOrderModel(
                               coffeeImage: widget.coffeeTypeImageSelected,
                               coffeeTypeName: widget.coffeeTypeNameSelected,

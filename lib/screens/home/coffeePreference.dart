@@ -1,20 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffeechoiceapp/model/coffeeOrder.dart';
 import 'package:coffeechoiceapp/model/coffeeType.dart';
 import 'package:coffeechoiceapp/screens/home/orderMenu.dart';
-import 'package:flutter/material.dart';
 import 'package:coffeechoiceapp/services/auth.dart';
 import 'package:coffeechoiceapp/services/database.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 // ignore: must_be_immutable
 class CoffeePreference extends StatefulWidget {
-
   String coffeeTypeNameSelected;
   int coffeeTypePriceSelected;
   String coffeeTypeImageSelected;
 
-  CoffeePreference({this.coffeeTypeNameSelected, this.coffeeTypePriceSelected, this.coffeeTypeImageSelected});
+  CoffeePreference(
+      {this.coffeeTypeNameSelected,
+      this.coffeeTypePriceSelected,
+      this.coffeeTypeImageSelected});
 
   @override
   _CoffeePreferenceState createState() => _CoffeePreferenceState();
@@ -39,7 +41,7 @@ class _CoffeePreferenceState extends State<CoffeePreference> {
 
   @override
   Widget build(BuildContext context) {
-    CoffeeOrderList coffeeOrderListProvided = Provider.of<CoffeeOrderList>(context);
+    CoffeeOrderList coffeeOrderListPro = Provider.of<CoffeeOrderList>(context);
 
     return StreamProvider<QuerySnapshot>.value(
       value: DatabaseService().coffees,
@@ -54,17 +56,20 @@ class _CoffeePreferenceState extends State<CoffeePreference> {
             child: Text(
               "Preferences",
               style: new TextStyle(
-                  fontSize: 18,
-                  color: Colors.brown,
+                fontSize: 18,
+                color: Colors.brown,
               ),
             ),
           ),
           leading: IconButton(
-            onPressed: (){
+            onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => OrderMenu(coffeeTypeList: coffeeTypeList,coffeeTypeModel: coffeeTypeModel,),
+                  builder: (context) => OrderMenu(
+                    coffeeTypeList: coffeeTypeList,
+                    coffeeTypeModel: coffeeTypeModel,
+                  ),
                 ),
               );
             },
@@ -74,12 +79,10 @@ class _CoffeePreferenceState extends State<CoffeePreference> {
 
           backgroundColor: Colors.transparent,
         ),
-
         body: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-
             Stack(
               children: <Widget>[
                 Center(
@@ -89,15 +92,16 @@ class _CoffeePreferenceState extends State<CoffeePreference> {
                         "images/preferencebg.png",
                         fit: BoxFit.fill,
                         width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height/5,
+                        height: MediaQuery.of(context).size.height / 5,
                       ),
                     ),
                   ),
                 ),
-
                 Center(
                   child: Container(
-                    margin: const EdgeInsets.only(top: 20,),
+                    margin: const EdgeInsets.only(
+                      top: 20,
+                    ),
                     child: FittedBox(
                       child: Image.asset(
                         widget.coffeeTypeImageSelected,
@@ -108,19 +112,22 @@ class _CoffeePreferenceState extends State<CoffeePreference> {
                     ),
                   ),
                 ),
-
               ],
             ),
 
             //Number of Cups Selection List
             Container(
               child: Padding(
-                padding: const EdgeInsets.only(right: 8.0, left: 8.0, top: 5.0, bottom: 5.0),
+                padding: const EdgeInsets.only(
+                    right: 8.0, left: 8.0, top: 5.0, bottom: 5.0),
                 child: ListTile(
-
                   leading: Container(
                     width: 110,
-                    margin: const EdgeInsets.only(top: 5, bottom: 5, left: 8,),
+                    margin: const EdgeInsets.only(
+                      top: 5,
+                      bottom: 5,
+                      left: 8,
+                    ),
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -130,24 +137,23 @@ class _CoffeePreferenceState extends State<CoffeePreference> {
                           style: new TextStyle(
                               fontWeight: FontWeight.normal,
                               fontSize: 20,
-                              color: Colors.brown
-                          ),
+                              color: Colors.brown),
                         ),
-
-                        SizedBox(height: 5,),
-
+                        SizedBox(
+                          height: 5,
+                        ),
                         Text(
-                          widget.coffeeTypePriceSelected.toString() + " " +"INR",
+                          widget.coffeeTypePriceSelected.toString() +
+                              " " +
+                              "INR",
                           style: new TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
-                              color: Colors.brown
-                          ),
+                              color: Colors.brown),
                         ),
                       ],
                     ),
                   ),
-
                   title: Container(
                     width: 90,
                     margin: const EdgeInsets.only(top: 0, bottom: 0, left: 10),
@@ -156,21 +162,18 @@ class _CoffeePreferenceState extends State<CoffeePreference> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-
                         Text(
                           noOfCoffeeOrdered.toString(),
-                          style: new TextStyle(
-                              fontSize: 20,
-                              color: Colors.brown
-                          ),
+                          style:
+                              new TextStyle(fontSize: 20, color: Colors.brown),
                         ),
-
-                        SizedBox(width: 10,),
-
+                        SizedBox(
+                          width: 10,
+                        ),
                         InkWell(
-                          onTap: (){
+                          onTap: () {
                             setState(() {
-                              if(noOfCoffeeOrdered >= 2){
+                              if (noOfCoffeeOrdered >= 2) {
                                 noOfCoffeeOrdered--;
                               }
                             });
@@ -182,13 +185,13 @@ class _CoffeePreferenceState extends State<CoffeePreference> {
                             height: 40,
                           ),
                         ),
-
-                        SizedBox(width: 5,),
-
+                        SizedBox(
+                          width: 5,
+                        ),
                         InkWell(
-                          onTap: (){
+                          onTap: () {
                             setState(() {
-                              if(noOfCoffeeOrdered >= 1){
+                              if (noOfCoffeeOrdered >= 1) {
                                 noOfCoffeeOrdered = noOfCoffeeOrdered + 1;
                               }
                             });
@@ -200,11 +203,9 @@ class _CoffeePreferenceState extends State<CoffeePreference> {
                             height: 40,
                           ),
                         ),
-
                       ],
                     ),
                   ),
-
                 ),
               ),
             ),
@@ -214,31 +215,32 @@ class _CoffeePreferenceState extends State<CoffeePreference> {
             //Cup Size Selection List
             Container(
               child: Padding(
-                padding: const EdgeInsets.only(right: 8.0, left: 8.0, top: 5.0, bottom: 5.0),
+                padding: const EdgeInsets.only(
+                    right: 8.0, left: 8.0, top: 5.0, bottom: 5.0),
                 child: ListTile(
-
                   leading: Container(
                     width: 90,
-                    margin: const EdgeInsets.only(top: 10, bottom: 6, left: 8,),
+                    margin: const EdgeInsets.only(
+                      top: 10,
+                      bottom: 6,
+                      left: 8,
+                    ),
                     child: Text(
                       'Size',
                       style: new TextStyle(
                           fontWeight: FontWeight.normal,
                           fontSize: 20,
-                          color: Colors.brown
-                      ),
+                          color: Colors.brown),
                     ),
                   ),
-
                   title: Container(
                     margin: const EdgeInsets.only(top: 0, bottom: 0, left: 10),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-
                         InkWell(
-                          onTap: (){
+                          onTap: () {
                             setState(() {
                               cupSizeValue = 0;
                             });
@@ -249,11 +251,11 @@ class _CoffeePreferenceState extends State<CoffeePreference> {
                             width: 30,
                           ),
                         ),
-
-                        SizedBox(width: 20,),
-
+                        SizedBox(
+                          width: 20,
+                        ),
                         InkWell(
-                          onTap: (){
+                          onTap: () {
                             setState(() {
                               cupSizeValue = 2;
                             });
@@ -264,11 +266,11 @@ class _CoffeePreferenceState extends State<CoffeePreference> {
                             width: 35,
                           ),
                         ),
-
-                        SizedBox(width: 20,),
-
+                        SizedBox(
+                          width: 20,
+                        ),
                         InkWell(
-                          onTap: (){
+                          onTap: () {
                             setState(() {
                               cupSizeValue = 3;
                             });
@@ -279,301 +281,280 @@ class _CoffeePreferenceState extends State<CoffeePreference> {
                             width: 40,
                           ),
                         ),
-
                       ],
                     ),
                   ),
-
                 ),
               ),
             ),
 
-              Divider(),
+            Divider(),
 
-              Container(
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 8.0, left: 8.0, top: 5.0, bottom: 5.0),
-                  child: ListTile(
-
-                    leading: Container(
-                      width: 90,
-                      margin: const EdgeInsets.only(top: 10, bottom: 6, left: 8,),
-                      child: Text(
-                        'Sugar',
-                        style: new TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 20,
-                            color: Colors.brown
+            Container(
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    right: 8.0, left: 8.0, top: 5.0, bottom: 5.0),
+                child: ListTile(
+                  leading: Container(
+                    width: 90,
+                    margin: const EdgeInsets.only(
+                      top: 10,
+                      bottom: 6,
+                      left: 8,
+                    ),
+                    child: Text(
+                      'Sugar',
+                      style: new TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontSize: 20,
+                          color: Colors.brown),
+                    ),
+                  ),
+                  title: Container(
+                    margin: const EdgeInsets.only(top: 10, bottom: 6, left: 10),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              if (coffeeSugarQty == 0) {
+                                coffeeSugarQty = 0;
+                              } else {
+                                coffeeSugarQty = 0;
+                              }
+                            });
+                          },
+                          child: Image.asset(
+                            'images/nosugar.png',
+                            height: 30,
+                            width: 30,
+                          ),
                         ),
-                      ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              if (coffeeSugarQty == 1) {
+                                coffeeSugarQty = 1;
+                              } else {
+                                coffeeSugarQty = 1;
+                              }
+                            });
+                          },
+                          child: Image.asset(
+                            'images/one_sugar.png',
+                            height: 20,
+                            width: 20,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              if (coffeeSugarQty == 2) {
+                                coffeeSugarQty = 2;
+                              } else {
+                                coffeeSugarQty = 2;
+                              }
+                            });
+                          },
+                          child: Image.asset(
+                            'images/two_sugar.png',
+                            height: 33,
+                            width: 33,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              if (coffeeSugarQty == 3) {
+                                coffeeSugarQty = 3;
+                              } else {
+                                coffeeSugarQty = 3;
+                              }
+                            });
+                          },
+                          child: Image.asset(
+                            'images/three_cubes.png',
+                            height: 35,
+                            width: 35,
+                          ),
+                        ),
+                      ],
                     ),
-
-                    title: Container(
-                      margin: const EdgeInsets.only(top: 10, bottom: 6, left: 10),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-
-                          InkWell(
-                            onTap: (){
-                              setState(() {
-                                if(coffeeSugarQty == 0){
-                                  coffeeSugarQty = 0;
-                                }else{
-                                  coffeeSugarQty = 0;
-                                }
-                              });
-                            },
-                            child: Image.asset(
-                              'images/nosugar.png',
-                              height: 30,
-                              width: 30,
-                            ),
-                          ),
-
-                          SizedBox(width: 20,),
-
-                          InkWell(
-                            onTap: (){
-                              setState(() {
-                                if(coffeeSugarQty == 1){
-                                  coffeeSugarQty = 1;
-                                }else{
-                                  coffeeSugarQty = 1;
-                                }
-                              });
-                            },
-                            child: Image.asset(
-                              'images/one_sugar.png',
-                              height: 20,
-                              width: 20,
-                            ),
-                          ),
-
-                          SizedBox(width: 20,),
-
-                          InkWell(
-                            onTap: (){
-                              setState(() {
-                                if(coffeeSugarQty == 2){
-                                  coffeeSugarQty = 2;
-                                }else{
-                                  coffeeSugarQty = 2;
-                                }
-                              });
-                            },
-                            child: Image.asset(
-                              'images/two_sugar.png',
-                              height: 33,
-                              width: 33,
-                            ),
-                          ),
-
-                          SizedBox(width: 20,),
-
-                          InkWell(
-                            onTap: (){
-                              setState(() {
-                                if(coffeeSugarQty == 3){
-                                  coffeeSugarQty = 3;
-                                }else{
-                                  coffeeSugarQty = 3;
-                                }
-                              });
-                            },
-                            child: Image.asset(
-                              'images/three_cubes.png',
-                              height: 35,
-                              width: 35,
-                            ),
-                          ),
-
-                        ],
-                      ),
-                    ),
-
-
                   ),
                 ),
               ),
+            ),
 
-              Divider(),
+            Divider(),
 
-              Container(
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 8.0, left: 8.0, top: 5.0, bottom: 5.0),
-                  child: ListTile(
-
-                    leading: Container(
-                      width: 90,
-                      margin: const EdgeInsets.only(top: 10, bottom: 6, left: 8),
-                      child: Text(
-                        'Additions',
-                        style: new TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 20,
-                            color: Colors.brown
-                        ),
-                      ),
+            Container(
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    right: 8.0, left: 8.0, top: 5.0, bottom: 5.0),
+                child: ListTile(
+                  leading: Container(
+                    width: 90,
+                    margin: const EdgeInsets.only(top: 10, bottom: 6, left: 8),
+                    child: Text(
+                      'Additions',
+                      style: new TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontSize: 20,
+                          color: Colors.brown),
                     ),
-
-                    title: Container(
-                      margin: const EdgeInsets.only(top: 10, bottom: 6, left: 12),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-
-                          InkWell(
-                            onTap: (){
-                              setState(() {
-                                 if(creamValidate == 0){
-                                   creamValidate = 1;
-                                 }else{
-                                   creamValidate = 0;
-                                 }
-                              });
-                            },
-                            child: Image.asset(
-                                'images/cream.png',
-                              height: 27,
-                              width: 27,
-                            ),
+                  ),
+                  title: Container(
+                    margin: const EdgeInsets.only(top: 10, bottom: 6, left: 12),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              if (creamValidate == 0) {
+                                creamValidate = 1;
+                              } else {
+                                creamValidate = 0;
+                              }
+                            });
+                          },
+                          child: Image.asset(
+                            'images/cream.png',
+                            height: 27,
+                            width: 27,
                           ),
-
-                          SizedBox(width: 20,),
-
-                          InkWell(
-                            onTap: (){
-                              setState(() {
-                                if(sparkleValidate == 0){
-                                  sparkleValidate = 1;
-                                }else{
-                                  sparkleValidate = 0;
-                                }
-                              });
-                            },
-                            child: Image.asset(
-                              'images/sparkle.png',
-                              height: 27,
-                              width: 27,
-                            ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              if (sparkleValidate == 0) {
+                                sparkleValidate = 1;
+                              } else {
+                                sparkleValidate = 0;
+                              }
+                            });
+                          },
+                          child: Image.asset(
+                            'images/sparkle.png',
+                            height: 27,
+                            width: 27,
                           ),
-
-                        ],
-                      ),
-                    ),
-
-
-                  ),
-                ),
-              ),
-
-              Container(
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 8.0, left: 8.0, top: 5.0, bottom: 5.0),
-                  child: ListTile(
-
-                    leading: Container(
-                      margin: const EdgeInsets.only(top: 10, bottom: 6, left: 8),
-                      child: Text(
-                        'Total:',
-                        style: new TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25,
-                            color: Colors.brown
                         ),
-                      ),
+                      ],
                     ),
-
-                    trailing: Container(
-                      margin: const EdgeInsets.only(top: 10, bottom: 6, right: 10),
-                      child: Text(
-                        finalCoffeeOrder(
-                          widget.coffeeTypePriceSelected,
-                          extraCreamPrice,
-                          extraSparklePrice,
-                          noOfCoffeeOrdered,
-                          creamValidate,
-                          sparkleValidate,
-                          cupSizeValue,).toString() + " INR",
-                        style: new TextStyle(
-                            fontSize: 20,
-                            color: Colors.brown
-                        ),
-                      ),
-                    ),
-
                   ),
                 ),
               ),
+            ),
 
-              // Add to Cart Button
-              Center(
-                child: Container(
-                  margin: const EdgeInsets.only(top: 20),
-                  child: RaisedButton(
-                    shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(35.0),
-                        side: BorderSide(color: Colors.brown)),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 15.0, right: 100, left: 100, bottom: 15),
-                      child: Text(
-                          'Add to Cart',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 13,
-                            fontWeight: FontWeight.normal,
-                          )
-                      ),
+            Container(
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    right: 8.0, left: 8.0, top: 5.0, bottom: 5.0),
+                child: ListTile(
+                  leading: Container(
+                    margin: const EdgeInsets.only(top: 10, bottom: 6, left: 8),
+                    child: Text(
+                      'Total:',
+                      style: new TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25,
+                          color: Colors.brown),
                     ),
-                    color: Colors.brown,
-                    onPressed: () {
-                      coffeeOrderListProvided.add(
-                          CoffeeOrderModel(
-                              coffeeImage: widget.coffeeTypeImageSelected,
-                              coffeeTypeName: widget.coffeeTypeNameSelected,
-                              finalCoffeeOrderPrice: finalCoffeeOrder(
-                                  widget.coffeeTypePriceSelected,
-                                  extraCreamPrice,
-                                  extraSparklePrice,
-                                  noOfCoffeeOrdered,
-                                  creamValidate,
-                                  sparkleValidate,
-                                  cupSizeValue,
-                              ),
-                              noOfCoffeeOrdered: noOfCoffeeOrdered,
-                              cupSize: cupSizeValue,
-                              coffeeSugarQty: coffeeSugarQty,
-                              creamAddition: creamValidate,
-                              sparkleAddition: sparkleValidate,
-                              coffeePrice: widget.coffeeTypePriceSelected,
-                          )
-                      );
-                      Navigator.of(context).pushNamed('/HomeScreen');
-                    },
+                  ),
+                  trailing: Container(
+                    margin:
+                        const EdgeInsets.only(top: 10, bottom: 6, right: 10),
+                    child: Text(
+                      finalCoffeeOrder(
+                            widget.coffeeTypePriceSelected,
+                            extraCreamPrice,
+                            extraSparklePrice,
+                            noOfCoffeeOrdered,
+                            creamValidate,
+                            sparkleValidate,
+                            cupSizeValue,
+                          ).toString() +
+                          " INR",
+                      style: new TextStyle(fontSize: 20, color: Colors.brown),
+                    ),
                   ),
                 ),
               ),
+            ),
 
+            // Add to Cart Button
+            Center(
+              child: Container(
+                margin: const EdgeInsets.only(top: 20),
+                child: RaisedButton(
+                  shape: new RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(35.0),
+                      side: BorderSide(color: Colors.brown)),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: 15.0, right: 100, left: 100, bottom: 15),
+                    child: Text('Add to Cart',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                          fontWeight: FontWeight.normal,
+                        )),
+                  ),
+                  color: Colors.brown,
+                  onPressed: () {
+                    coffeeOrderListPro.add(CoffeeOrderModel(
+                      coffeeImage: widget.coffeeTypeImageSelected,
+                      coffeeTypeName: widget.coffeeTypeNameSelected,
+                      finalCoffeeOrderPrice: finalCoffeeOrder(
+                        widget.coffeeTypePriceSelected,
+                        extraCreamPrice,
+                        extraSparklePrice,
+                        noOfCoffeeOrdered,
+                        creamValidate,
+                        sparkleValidate,
+                        cupSizeValue,
+                      ),
+                      noOfCoffeeOrdered: noOfCoffeeOrdered,
+                      cupSize: cupSizeValue,
+                      coffeeSugarQty: coffeeSugarQty,
+                      creamAddition: creamValidate,
+                      sparkleAddition: sparkleValidate,
+                      coffeePrice: widget.coffeeTypePriceSelected,
+                    ));
+                    Navigator.of(context).pushNamed('/HomeScreen');
+                  },
+                ),
+              ),
+            ),
           ],
         ),
-
-
       ),
     );
   }
 
-  int finalCoffeeOrder(
-      int cofPrice, int creamPrice, int sparklePrice, int noOfCups,
-      int creamValidated, int sparkleValidate, int cupSizeValue) {
-    finalCoffeeOrderPrice = ((cofPrice+cupSizeValue)+(creamPrice*creamValidated)+(sparklePrice*sparkleValidate))*noOfCups;
+  int finalCoffeeOrder(int cofPrice, int creamPrice, int sparklePrice,
+      int noOfCups, int creamValidated, int sparkleValidate, int cupSizeValue) {
+    finalCoffeeOrderPrice = ((cofPrice + cupSizeValue) +
+            (creamPrice * creamValidated) +
+            (sparklePrice * sparkleValidate)) *
+        noOfCups;
 
     return finalCoffeeOrderPrice;
   }
 }
-
-
-
-
