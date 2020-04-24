@@ -22,9 +22,13 @@ class _OrderListState extends State<OrderList> {
 
   final _rebuildList = GlobalKey<FormState>();
 
+  String coffeeSizeString;
+  String coffeeSugarImageString;
+  bool coffeeCreamBool;
+  bool coffeeSparkleBool;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -75,7 +79,7 @@ class _OrderListState extends State<OrderList> {
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 itemCount: coffeeOrderListPro.getCoffeeOrderList.length,
-                itemBuilder: (context, index) {
+                itemBuilder: (context, int index) {
                   return InkWell(
                     onTap: () {
                       Navigator.push(
@@ -91,6 +95,9 @@ class _OrderListState extends State<OrderList> {
                           ),
                         ),
                       );
+                    },
+                    onDoubleTap: () {
+                      coffeeOrderListPro.removeItem();
                     },
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
@@ -111,28 +118,130 @@ class _OrderListState extends State<OrderList> {
                               ),
                               title: Container(
                                 margin: const EdgeInsets.only(
-                                    top: 0, bottom: 6, left: 10),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  top: 0,
+                                  bottom: 6,
+                                  left: 10,
+                                ),
+                                child: Row(
                                   children: <Widget>[
-                                    Text(
-                                      coffeeOrderListPro
-                                          .getCoffeeOrderList[index]
-                                          .coffeeTypeName,
-                                      style: new TextStyle(
-                                          fontSize: 20, color: Colors.brown),
+                                    Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          coffeeOrderListPro
+                                              .getCoffeeOrderList[index]
+                                              .coffeeTypeName,
+                                          style: new TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.brown),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 5.0),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Image.asset(
+                                                coffeeOrderListPro
+                                                    .getCoffeeOrderList[index]
+                                                    .coffeeImage,
+                                                height: 20,
+                                                width: 20,
+                                              ),
+                                              Text(
+                                                ": " +
+                                                    getCoffeeSize(
+                                                        coffeeOrderListPro
+                                                            .getCoffeeOrderList[
+                                                                index]
+                                                            .cupSize),
+                                                style: new TextStyle(
+                                                    fontSize: 15,
+                                                    color: Colors.brown),
+                                              ),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              Image.asset(
+                                                getCoffeeSugarAmount(
+                                                    coffeeOrderListPro
+                                                        .getCoffeeOrderList[
+                                                            index]
+                                                        .coffeeSugarQty),
+                                                height: 20,
+                                                width: 20,
+                                              ),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              Visibility(
+                                                visible:
+                                                    getCoffeeCreamValidation(
+                                                        coffeeOrderListPro
+                                                            .getCoffeeOrderList[
+                                                                index]
+                                                            .creamAddition),
+                                                child: Image.asset(
+                                                  'images/cream.png',
+                                                  height: 20,
+                                                  width: 20,
+                                                ),
+                                              ),
+                                              Visibility(
+                                                visible:
+                                                    getCoffeeCreamValidation(
+                                                        coffeeOrderListPro
+                                                            .getCoffeeOrderList[
+                                                                index]
+                                                            .creamAddition),
+                                                child: SizedBox(
+                                                  width: 10,
+                                                ),
+                                              ),
+                                              Visibility(
+                                                visible:
+                                                    getCoffeeSparkleValidation(
+                                                        coffeeOrderListPro
+                                                            .getCoffeeOrderList[
+                                                                index]
+                                                            .sparkleAddition),
+                                                child: Image.asset(
+                                                  'images/sparkle.png',
+                                                  height: 20,
+                                                  width: 20,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
                               ),
-                              trailing: Container(
-                                margin: const EdgeInsets.only(top: 6),
-                                child: Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: Colors.brown,
-                                ),
+                              trailing: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    "Qty: " +
+                                        coffeeOrderListPro
+                                            .getCoffeeOrderList[index]
+                                            .noOfCoffeeOrdered
+                                            .toString(),
+                                    style: new TextStyle(
+                                        fontSize: 17, color: Colors.brown),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -147,25 +256,29 @@ class _OrderListState extends State<OrderList> {
               alignment: Alignment.bottomCenter,
               child: Container(
                 margin: const EdgeInsets.only(
-                  top: 10,
+                  top: 0,
                   bottom: 15,
                 ),
-                child: RaisedButton(
-                  shape: new RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(35.0),
-                      side: BorderSide(color: Colors.brown)),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        top: 15.0, right: 40, left: 40, bottom: 15),
-                    child: Text('Order',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 13,
-                          fontWeight: FontWeight.normal,
-                        )),
-                  ),
-                  color: Colors.brown,
-                  onPressed: () {},
+                child: Column(
+                  children: <Widget>[
+                    RaisedButton(
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(35.0),
+                          side: BorderSide(color: Colors.brown)),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: 15.0, right: 40, left: 40, bottom: 15),
+                        child: Text('Order',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 13,
+                              fontWeight: FontWeight.normal,
+                            )),
+                      ),
+                      color: Colors.brown,
+                      onPressed: () {},
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -192,5 +305,47 @@ class _OrderListState extends State<OrderList> {
         ),
       ),
     );
+  }
+
+  String getCoffeeSize(int coffeeSize) {
+    if (coffeeSize == 0) {
+      coffeeSizeString = "S";
+    } else if (coffeeSize == 2) {
+      coffeeSizeString = "M";
+    } else {
+      coffeeSizeString = "L";
+    }
+    return coffeeSizeString;
+  }
+
+  String getCoffeeSugarAmount(int coffeeSugarAmount) {
+    if (coffeeSugarAmount == 0) {
+      coffeeSugarImageString = "images/nosugar.png";
+    } else if (coffeeSugarAmount == 1) {
+      coffeeSugarImageString = "images/one_sugar.png";
+    } else if (coffeeSugarAmount == 2) {
+      coffeeSugarImageString = "images/two_sugar.png";
+    } else {
+      coffeeSugarImageString = "images/three_cubes.png";
+    }
+    return coffeeSugarImageString;
+  }
+
+  bool getCoffeeCreamValidation(int coffeeCream) {
+    if (coffeeCream == 1) {
+      coffeeCreamBool = true;
+    } else {
+      coffeeCreamBool = false;
+    }
+    return coffeeCreamBool;
+  }
+
+  bool getCoffeeSparkleValidation(int coffeeSparkle) {
+    if (coffeeSparkle == 1) {
+      coffeeSparkleBool = true;
+    } else {
+      coffeeSparkleBool = false;
+    }
+    return coffeeSparkleBool;
   }
 }

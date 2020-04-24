@@ -30,7 +30,7 @@ class _CoffeePreferenceState extends State<CoffeePreference> {
   final CoffeeOrderList coffeeOrderList = CoffeeOrderList();
   final CoffeeOrderModel coffeeOrderModel = CoffeeOrderModel();
 
-  int finalCoffeeOrderPrice;
+  int finalCoffeeOrderAmount;
   int noOfCoffeeOrdered = 1;
   int creamValidate = 0;
   int sparkleValidate = 0;
@@ -521,7 +521,7 @@ class _CoffeePreferenceState extends State<CoffeePreference> {
                     coffeeOrderListPro.add(CoffeeOrderModel(
                       coffeeImage: widget.coffeeTypeImageSelected,
                       coffeeTypeName: widget.coffeeTypeNameSelected,
-                      finalCoffeeOrderPrice: finalCoffeeOrder(
+                      finalCoffeeOrderAmount: finalCoffeeOrder(
                         widget.coffeeTypePriceSelected,
                         extraCreamPrice,
                         extraSparklePrice,
@@ -550,11 +550,11 @@ class _CoffeePreferenceState extends State<CoffeePreference> {
 
   int finalCoffeeOrder(int cofPrice, int creamPrice, int sparklePrice,
       int noOfCups, int creamValidated, int sparkleValidate, int cupSizeValue) {
-    finalCoffeeOrderPrice = ((cofPrice + cupSizeValue) +
+    finalCoffeeOrderAmount = ((cofPrice + cupSizeValue) +
             (creamPrice * creamValidated) +
             (sparklePrice * sparkleValidate)) *
         noOfCups;
 
-    return finalCoffeeOrderPrice;
+    return finalCoffeeOrderAmount;
   }
 }
