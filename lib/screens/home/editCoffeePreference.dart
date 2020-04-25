@@ -509,7 +509,9 @@ class _EditCoffeePreferenceState extends State<EditCoffeePreference> {
                   ),
                   color: Colors.brown,
                   onPressed: () {
-                    coffeeOrderListPro.add(CoffeeOrderModel(
+                    coffeeOrderListPro.updateCoffeeOrderItem(CoffeeOrderModel(
+                      id: coffeeOrderListPro.getCoffeeOrderList
+                          .indexOf(coffeeOrderModel, 0),
                       coffeeImage: widget.coffeeTypeImageSelected,
                       coffeeTypeName: widget.coffeeTypeNameSelected,
                       finalCoffeeOrderAmount: finalCoffeeOrder(

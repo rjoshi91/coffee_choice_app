@@ -3,18 +3,20 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 
 class CoffeeOrderModel {
+  final int id;
   final String coffeeImage;
   final String coffeeTypeName;
   final int coffeePrice;
   final int finalCoffeeOrderAmount;
-  final int noOfCoffeeOrdered;
+  int noOfCoffeeOrdered;
   final int cupSize;
   final int coffeeSugarQty;
   final int creamAddition;
   final int sparkleAddition;
 
   CoffeeOrderModel(
-      {this.coffeeImage,
+      {this.id,
+      this.coffeeImage,
       this.coffeeTypeName,
       this.finalCoffeeOrderAmount,
       this.noOfCoffeeOrdered,
@@ -26,7 +28,7 @@ class CoffeeOrderModel {
 }
 
 class CoffeeOrderList extends ChangeNotifier {
-  int index;
+  var sum = 0;
 
   List<CoffeeOrderModel> _getCoffeeOrderList = [];
 
@@ -39,9 +41,32 @@ class CoffeeOrderList extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Removes all orders from the OrderList.
-  void removeItem() {
-    _getCoffeeOrderList.removeAt(index);
+  void removeCoffeeOrderItem(CoffeeOrderModel coffeeOrderModel) {
+    int index =
+        _getCoffeeOrderList.indexWhere((i) => i.id == coffeeOrderModel.id);
+    _getCoffeeOrderList[index].noOfCoffeeOrdered = 1;
+    _getCoffeeOrderList.removeWhere((item) => item.id == coffeeOrderModel.id);
+    finalCoffeeBill();
     notifyListeners();
+  }
+
+  void updateCoffeeOrderItem(CoffeeOrderModel coffeeOrderModel) {
+    int index =
+        _getCoffeeOrderList.indexWhere((i) => i.id == coffeeOrderModel.id);
+    _getCoffeeOrderList[index].noOfCoffeeOrdered =
+        _getCoffeeOrderList[index].noOfCoffeeOrdered;
+    if (_getCoffeeOrderList[index].noOfCoffeeOrdered == 0) {
+      removeCoffeeOrderItem(coffeeOrderModel);
+    }
+    finalCoffeeBill();
+    notifyListeners();
+  }
+
+  int finalCoffeeBill() {
+    sum = 0;
+    _getCoffeeOrderList.forEach((f) {
+      sum += f.finalCoffeeOrderAmount;
+    });
+    return sum;
   }
 }

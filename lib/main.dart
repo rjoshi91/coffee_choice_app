@@ -25,32 +25,34 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',
-            theme: ThemeData(primarySwatch: Colors.blue, ),
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+            ),
             home: Wrapper(),
             routes: <String, WidgetBuilder>{
               '/LoginScreen': (BuildContext context) => new LoginScreen(),
               '/HomeScreen': (BuildContext context) => new OrderList(),
-              '/RegistrationScreen': (BuildContext context) => new RegistrationScreen(),
+              '/RegistrationScreen': (BuildContext context) =>
+                  new RegistrationScreen(),
               '/OrderMenuScreen': (BuildContext context) => new OrderMenu(),
-              '/CoffeePreferenceScreen': (BuildContext context) => new CoffeePreference(),
+              '/CoffeePreferenceScreen': (BuildContext context) =>
+                  new CoffeePreference(),
             }),
       ),
     );
   }
 }
 
-
 //ChangeNotifierProvider(create: (context) => CoffeeOrderList()),
 
 class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     final user = Provider.of<User>(context);
 
-    if(user == null){
+    if (user == null) {
       return SplashScreen();
-    }else{
+    } else {
       return SplashScreenLoggedIn();
     }
   }

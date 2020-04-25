@@ -26,6 +26,7 @@ class _OrderListState extends State<OrderList> {
   String coffeeSugarImageString;
   bool coffeeCreamBool;
   bool coffeeSparkleBool;
+  int coffeeFinalBill;
 
   @override
   void initState() {
@@ -97,7 +98,27 @@ class _OrderListState extends State<OrderList> {
                       );
                     },
                     onDoubleTap: () {
-                      coffeeOrderListPro.removeItem();
+                      coffeeOrderListPro.removeCoffeeOrderItem(CoffeeOrderModel(
+                        id: coffeeOrderListPro.getCoffeeOrderList[index].id,
+                        coffeeImage: coffeeOrderListPro
+                            .getCoffeeOrderList[index].coffeeImage,
+                        coffeeTypeName: coffeeOrderListPro
+                            .getCoffeeOrderList[index].coffeeTypeName,
+                        finalCoffeeOrderAmount: coffeeOrderListPro
+                            .getCoffeeOrderList[index].finalCoffeeOrderAmount,
+                        noOfCoffeeOrdered: coffeeOrderListPro
+                            .getCoffeeOrderList[index].noOfCoffeeOrdered,
+                        cupSize: coffeeOrderListPro
+                            .getCoffeeOrderList[index].cupSize,
+                        coffeeSugarQty: coffeeOrderListPro
+                            .getCoffeeOrderList[index].coffeeSugarQty,
+                        creamAddition: coffeeOrderListPro
+                            .getCoffeeOrderList[index].creamAddition,
+                        sparkleAddition: coffeeOrderListPro
+                            .getCoffeeOrderList[index].sparkleAddition,
+                        coffeePrice: coffeeOrderListPro
+                            .getCoffeeOrderList[index].coffeePrice,
+                      ));
                     },
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
@@ -256,11 +277,22 @@ class _OrderListState extends State<OrderList> {
               alignment: Alignment.bottomCenter,
               child: Container(
                 margin: const EdgeInsets.only(
-                  top: 0,
+                  top: 10,
                   bottom: 15,
                 ),
                 child: Column(
                   children: <Widget>[
+                    Text(
+                      "Total Order Amount: " +
+                          getCoffeeFinalBill(
+                                  coffeeOrderListPro.finalCoffeeBill())
+                              .toString() +
+                          " INR",
+                      style: new TextStyle(fontSize: 20, color: Colors.brown),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
                     RaisedButton(
                       shape: new RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(35.0),
@@ -347,5 +379,14 @@ class _OrderListState extends State<OrderList> {
       coffeeSparkleBool = false;
     }
     return coffeeSparkleBool;
+  }
+
+  int getCoffeeFinalBill(int coffeeBillAmount) {
+    if (coffeeBillAmount == null) {
+      coffeeFinalBill = 0;
+    } else {
+      coffeeFinalBill = coffeeBillAmount;
+    }
+    return coffeeFinalBill;
   }
 }

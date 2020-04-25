@@ -30,7 +30,8 @@ class _CoffeePreferenceState extends State<CoffeePreference> {
   final CoffeeOrderList coffeeOrderList = CoffeeOrderList();
   final CoffeeOrderModel coffeeOrderModel = CoffeeOrderModel();
 
-  int finalCoffeeOrderAmount;
+  int finalCoAmt;
+  int itemOrderId = 1;
   int noOfCoffeeOrdered = 1;
   int creamValidate = 0;
   int sparkleValidate = 0;
@@ -519,6 +520,7 @@ class _CoffeePreferenceState extends State<CoffeePreference> {
                   color: Colors.brown,
                   onPressed: () {
                     coffeeOrderListPro.add(CoffeeOrderModel(
+                      id: coffeeOrderListPro.getCoffeeOrderList.length,
                       coffeeImage: widget.coffeeTypeImageSelected,
                       coffeeTypeName: widget.coffeeTypeNameSelected,
                       finalCoffeeOrderAmount: finalCoffeeOrder(
@@ -537,6 +539,7 @@ class _CoffeePreferenceState extends State<CoffeePreference> {
                       sparkleAddition: sparkleValidate,
                       coffeePrice: widget.coffeeTypePriceSelected,
                     ));
+
                     Navigator.of(context).pushNamed('/HomeScreen');
                   },
                 ),
@@ -550,11 +553,11 @@ class _CoffeePreferenceState extends State<CoffeePreference> {
 
   int finalCoffeeOrder(int cofPrice, int creamPrice, int sparklePrice,
       int noOfCups, int creamValidated, int sparkleValidate, int cupSizeValue) {
-    finalCoffeeOrderAmount = ((cofPrice + cupSizeValue) +
+    finalCoAmt = ((cofPrice + cupSizeValue) +
             (creamPrice * creamValidated) +
             (sparklePrice * sparkleValidate)) *
         noOfCups;
 
-    return finalCoffeeOrderAmount;
+    return finalCoAmt;
   }
 }
