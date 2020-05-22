@@ -44,7 +44,7 @@ class CoffeeOrderList extends ChangeNotifier {
   void removeCoffeeOrderItem(CoffeeOrderModel coffeeOrderModel) {
     int index =
         _getCoffeeOrderList.indexWhere((i) => i.id == coffeeOrderModel.id);
-    _getCoffeeOrderList[index].noOfCoffeeOrdered = 1;
+    _getCoffeeOrderList[index].noOfCoffeeOrdered = coffeeOrderModel.id;
     _getCoffeeOrderList.removeWhere((item) => item.id == coffeeOrderModel.id);
     finalCoffeeBill();
     notifyListeners();
@@ -53,11 +53,7 @@ class CoffeeOrderList extends ChangeNotifier {
   void updateCoffeeOrderItem(CoffeeOrderModel coffeeOrderModel) {
     int index =
         _getCoffeeOrderList.indexWhere((i) => i.id == coffeeOrderModel.id);
-    _getCoffeeOrderList[index].noOfCoffeeOrdered =
-        _getCoffeeOrderList[index].noOfCoffeeOrdered;
-    if (_getCoffeeOrderList[index].noOfCoffeeOrdered == 0) {
-      removeCoffeeOrderItem(coffeeOrderModel);
-    }
+    _getCoffeeOrderList[index].noOfCoffeeOrdered = coffeeOrderModel.id;
     finalCoffeeBill();
     notifyListeners();
   }

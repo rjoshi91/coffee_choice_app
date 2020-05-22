@@ -1,5 +1,6 @@
 import 'package:coffeechoiceapp/model/user.dart';
 import 'package:coffeechoiceapp/screens/home/coffeePreference.dart';
+import 'package:coffeechoiceapp/screens/home/editCoffeePreference.dart';
 import 'package:coffeechoiceapp/screens/home/orderList.dart';
 import 'package:coffeechoiceapp/screens/home/orderMenu.dart';
 import 'package:coffeechoiceapp/screens/home/splashscreenloggedin.dart';
@@ -37,19 +38,18 @@ class MyApp extends StatelessWidget {
               '/OrderMenuScreen': (BuildContext context) => new OrderMenu(),
               '/CoffeePreferenceScreen': (BuildContext context) =>
                   new CoffeePreference(),
+              '/EditCoffeePreferenceScreen': (BuildContext context) =>
+                  new EditCoffeePreference(),
             }),
       ),
     );
   }
 }
 
-//ChangeNotifierProvider(create: (context) => CoffeeOrderList()),
-
 class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
-
     if (user == null) {
       return SplashScreen();
     } else {

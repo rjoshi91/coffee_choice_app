@@ -5,6 +5,7 @@ import 'package:coffeechoiceapp/screens/home/editCoffeePreference.dart';
 import 'package:coffeechoiceapp/screens/home/orderMenu.dart';
 import 'package:coffeechoiceapp/services/auth.dart';
 import 'package:coffeechoiceapp/services/database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -87,12 +88,29 @@ class _OrderListState extends State<OrderList> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => EditCoffeePreference(
-                            coffeeTypeNameSelected: coffeeOrderListPro
-                                .getCoffeeOrderList[index].coffeeTypeName,
-                            coffeeTypePriceSelected: coffeeOrderListPro
-                                .getCoffeeOrderList[index].coffeePrice,
-                            coffeeTypeImageSelected: coffeeOrderListPro
-                                .getCoffeeOrderList[index].coffeeImage,
+                            coffeeOrderModel: CoffeeOrderModel(
+                              id: coffeeOrderListPro
+                                  .getCoffeeOrderList[index].id,
+                              coffeeImage: coffeeOrderListPro
+                                  .getCoffeeOrderList[index].coffeeImage,
+                              coffeeTypeName: coffeeOrderListPro
+                                  .getCoffeeOrderList[index].coffeeTypeName,
+                              finalCoffeeOrderAmount: coffeeOrderListPro
+                                  .getCoffeeOrderList[index]
+                                  .finalCoffeeOrderAmount,
+                              noOfCoffeeOrdered: coffeeOrderListPro
+                                  .getCoffeeOrderList[index].noOfCoffeeOrdered,
+                              cupSize: coffeeOrderListPro
+                                  .getCoffeeOrderList[index].cupSize,
+                              coffeeSugarQty: coffeeOrderListPro
+                                  .getCoffeeOrderList[index].coffeeSugarQty,
+                              creamAddition: coffeeOrderListPro
+                                  .getCoffeeOrderList[index].creamAddition,
+                              sparkleAddition: coffeeOrderListPro
+                                  .getCoffeeOrderList[index].sparkleAddition,
+                              coffeePrice: coffeeOrderListPro
+                                  .getCoffeeOrderList[index].coffeePrice,
+                            ),
                           ),
                         ),
                       );

@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffeechoiceapp/model/coffeeOrder.dart';
-import 'package:coffeechoiceapp/model/coffeeType.dart';
 import 'package:coffeechoiceapp/services/auth.dart';
 import 'package:coffeechoiceapp/services/database.dart';
 import 'package:flutter/material.dart';
@@ -8,14 +7,11 @@ import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class EditCoffeePreference extends StatefulWidget {
-  String coffeeTypeNameSelected;
-  int coffeeTypePriceSelected;
-  String coffeeTypeImageSelected;
+  final CoffeeOrderModel coffeeOrderModel;
 
-  EditCoffeePreference(
-      {this.coffeeTypeNameSelected,
-      this.coffeeTypePriceSelected,
-      this.coffeeTypeImageSelected});
+  EditCoffeePreference({
+    this.coffeeOrderModel,
+  });
 
   @override
   _EditCoffeePreferenceState createState() => _EditCoffeePreferenceState();
@@ -24,19 +20,15 @@ class EditCoffeePreference extends StatefulWidget {
 class _EditCoffeePreferenceState extends State<EditCoffeePreference> {
   final AuthService _auth = AuthService();
 
-  final CoffeeTypeList coffeeTypeList = CoffeeTypeList();
-  final CoffeeTypeModel coffeeTypeModel = CoffeeTypeModel();
-  final CoffeeOrderList coffeeOrderList = CoffeeOrderList();
-  final CoffeeOrderModel coffeeOrderModel = CoffeeOrderModel();
-
   int finalCoffeeOrderPrice;
-  int noOfCoffeeOrdered = 1;
-  int creamValidate = 0;
-  int sparkleValidate = 0;
   final int extraSparklePrice = 3;
   final int extraCreamPrice = 5;
-  int cupSizeValue = 0;
+  int noOfCoffeeOrdered = 0;
+  int creamValidate = 0;
+  int sparkleValidate = 0;
   int coffeeSugarQty = 0;
+  int coffeeTypePriceSelected = 0;
+  int cupSizeValue = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +87,7 @@ class _EditCoffeePreferenceState extends State<EditCoffeePreference> {
                     ),
                     child: FittedBox(
                       child: Image.asset(
-                        widget.coffeeTypeImageSelected,
+                        widget.coffeeOrderModel.coffeeImage,
                         fit: BoxFit.fill,
                         width: 90,
                         height: 100,
@@ -124,7 +116,7 @@ class _EditCoffeePreferenceState extends State<EditCoffeePreference> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          widget.coffeeTypeNameSelected,
+                          widget.coffeeOrderModel.coffeeTypeName,
                           style: new TextStyle(
                               fontWeight: FontWeight.normal,
                               fontSize: 20,
@@ -134,7 +126,7 @@ class _EditCoffeePreferenceState extends State<EditCoffeePreference> {
                           height: 5,
                         ),
                         Text(
-                          widget.coffeeTypePriceSelected.toString() +
+                          widget.coffeeOrderModel.coffeePrice.toString() +
                               " " +
                               "INR",
                           style: new TextStyle(
@@ -154,7 +146,9 @@ class _EditCoffeePreferenceState extends State<EditCoffeePreference> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          noOfCoffeeOrdered.toString(),
+                          (noOfCoffeeOrdered +
+                                  widget.coffeeOrderModel.noOfCoffeeOrdered)
+                              .toString(),
                           style:
                               new TextStyle(fontSize: 20, color: Colors.brown),
                         ),
@@ -165,7 +159,9 @@ class _EditCoffeePreferenceState extends State<EditCoffeePreference> {
                           onTap: () {
                             setState(() {
                               if (noOfCoffeeOrdered >= 2) {
-                                noOfCoffeeOrdered--;
+                                noOfCoffeeOrdered =
+                                    widget.coffeeOrderModel.noOfCoffeeOrdered -
+                                        1;
                               }
                             });
                           },
@@ -183,7 +179,9 @@ class _EditCoffeePreferenceState extends State<EditCoffeePreference> {
                           onTap: () {
                             setState(() {
                               if (noOfCoffeeOrdered >= 1) {
-                                noOfCoffeeOrdered = noOfCoffeeOrdered + 1;
+                                noOfCoffeeOrdered =
+                                    widget.coffeeOrderModel.noOfCoffeeOrdered +
+                                        1;
                               }
                             });
                           },
@@ -237,7 +235,7 @@ class _EditCoffeePreferenceState extends State<EditCoffeePreference> {
                             });
                           },
                           child: Image.asset(
-                            widget.coffeeTypeImageSelected,
+                            widget.coffeeOrderModel.coffeeImage,
                             height: 30,
                             width: 30,
                           ),
@@ -252,7 +250,7 @@ class _EditCoffeePreferenceState extends State<EditCoffeePreference> {
                             });
                           },
                           child: Image.asset(
-                            widget.coffeeTypeImageSelected,
+                            widget.coffeeOrderModel.coffeeImage,
                             height: 35,
                             width: 35,
                           ),
@@ -267,7 +265,7 @@ class _EditCoffeePreferenceState extends State<EditCoffeePreference> {
                             });
                           },
                           child: Image.asset(
-                            widget.coffeeTypeImageSelected,
+                            widget.coffeeOrderModel.coffeeImage,
                             height: 40,
                             width: 40,
                           ),
@@ -310,7 +308,9 @@ class _EditCoffeePreferenceState extends State<EditCoffeePreference> {
                         InkWell(
                           onTap: () {
                             setState(() {
-                              if (coffeeSugarQty == 0) {
+                              if ((coffeeSugarQty +
+                                      widget.coffeeOrderModel.coffeeSugarQty) ==
+                                  0) {
                                 coffeeSugarQty = 0;
                               } else {
                                 coffeeSugarQty = 0;
@@ -329,7 +329,9 @@ class _EditCoffeePreferenceState extends State<EditCoffeePreference> {
                         InkWell(
                           onTap: () {
                             setState(() {
-                              if (coffeeSugarQty == 1) {
+                              if ((coffeeSugarQty +
+                                      widget.coffeeOrderModel.coffeeSugarQty) ==
+                                  1) {
                                 coffeeSugarQty = 1;
                               } else {
                                 coffeeSugarQty = 1;
@@ -348,7 +350,9 @@ class _EditCoffeePreferenceState extends State<EditCoffeePreference> {
                         InkWell(
                           onTap: () {
                             setState(() {
-                              if (coffeeSugarQty == 2) {
+                              if ((coffeeSugarQty +
+                                      widget.coffeeOrderModel.coffeeSugarQty) ==
+                                  2) {
                                 coffeeSugarQty = 2;
                               } else {
                                 coffeeSugarQty = 2;
@@ -367,7 +371,9 @@ class _EditCoffeePreferenceState extends State<EditCoffeePreference> {
                         InkWell(
                           onTap: () {
                             setState(() {
-                              if (coffeeSugarQty == 3) {
+                              if ((coffeeSugarQty +
+                                      widget.coffeeOrderModel.coffeeSugarQty) ==
+                                  3) {
                                 coffeeSugarQty = 3;
                               } else {
                                 coffeeSugarQty = 3;
@@ -414,7 +420,9 @@ class _EditCoffeePreferenceState extends State<EditCoffeePreference> {
                         InkWell(
                           onTap: () {
                             setState(() {
-                              if (creamValidate == 0) {
+                              if ((creamValidate +
+                                      widget.coffeeOrderModel.creamAddition) ==
+                                  0) {
                                 creamValidate = 1;
                               } else {
                                 creamValidate = 0;
@@ -433,7 +441,10 @@ class _EditCoffeePreferenceState extends State<EditCoffeePreference> {
                         InkWell(
                           onTap: () {
                             setState(() {
-                              if (sparkleValidate == 0) {
+                              if ((sparkleValidate +
+                                      widget
+                                          .coffeeOrderModel.sparkleAddition) ==
+                                  0) {
                                 sparkleValidate = 1;
                               } else {
                                 sparkleValidate = 0;
@@ -473,13 +484,18 @@ class _EditCoffeePreferenceState extends State<EditCoffeePreference> {
                         const EdgeInsets.only(top: 10, bottom: 6, right: 10),
                     child: Text(
                       finalCoffeeOrder(
-                            widget.coffeeTypePriceSelected,
-                            extraCreamPrice,
-                            extraSparklePrice,
-                            noOfCoffeeOrdered,
-                            creamValidate,
-                            sparkleValidate,
-                            cupSizeValue,
+                            widget.coffeeOrderModel.coffeePrice,
+                            (extraCreamPrice +
+                                widget.coffeeOrderModel.creamAddition),
+                            (extraSparklePrice +
+                                widget.coffeeOrderModel.sparkleAddition),
+                            (noOfCoffeeOrdered +
+                                widget.coffeeOrderModel.noOfCoffeeOrdered),
+                            (creamValidate +
+                                widget.coffeeOrderModel.creamAddition),
+                            (sparkleValidate +
+                                widget.coffeeOrderModel.sparkleAddition),
+                            (cupSizeValue + widget.coffeeOrderModel.cupSize),
                           ).toString() +
                           " INR",
                       style: new TextStyle(fontSize: 20, color: Colors.brown),
@@ -499,8 +515,8 @@ class _EditCoffeePreferenceState extends State<EditCoffeePreference> {
                       side: BorderSide(color: Colors.brown)),
                   child: Padding(
                     padding: const EdgeInsets.only(
-                        top: 15.0, right: 100, left: 100, bottom: 15),
-                    child: Text('Add to Cart',
+                        top: 15.0, right: 30, left: 30, bottom: 15),
+                    child: Text('Edit Preference to Cart',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 13,
@@ -510,12 +526,11 @@ class _EditCoffeePreferenceState extends State<EditCoffeePreference> {
                   color: Colors.brown,
                   onPressed: () {
                     coffeeOrderListPro.updateCoffeeOrderItem(CoffeeOrderModel(
-                      id: coffeeOrderListPro.getCoffeeOrderList
-                          .indexOf(coffeeOrderModel, 0),
-                      coffeeImage: widget.coffeeTypeImageSelected,
-                      coffeeTypeName: widget.coffeeTypeNameSelected,
+                      id: widget.coffeeOrderModel.id,
+                      coffeeImage: widget.coffeeOrderModel.coffeeImage,
+                      coffeeTypeName: widget.coffeeOrderModel.coffeeTypeName,
                       finalCoffeeOrderAmount: finalCoffeeOrder(
-                        widget.coffeeTypePriceSelected,
+                        widget.coffeeOrderModel.coffeePrice,
                         extraCreamPrice,
                         extraSparklePrice,
                         noOfCoffeeOrdered,
@@ -528,8 +543,9 @@ class _EditCoffeePreferenceState extends State<EditCoffeePreference> {
                       coffeeSugarQty: coffeeSugarQty,
                       creamAddition: creamValidate,
                       sparkleAddition: sparkleValidate,
-                      coffeePrice: widget.coffeeTypePriceSelected,
+                      coffeePrice: widget.coffeeOrderModel.coffeePrice,
                     ));
+                    Navigator.of(context).pushNamed('/HomeScreen');
                   },
                 ),
               ),
